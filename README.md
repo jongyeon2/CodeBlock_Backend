@@ -27,7 +27,7 @@
 
 이 프로젝트는 **기능별 계층형 아키텍처(Feature-based Layered Architecture)**를 따릅니다.
 
-![기능별 계층형 아키텍처 다이어그램](docs/images/layered-architecture-2.png)
+![기능별 계층형 아키텍처 다이어그램](layered-architecture-2.png)
 
 - **핵심 특징:** 전체 코드를 `user`, `course`와 같은 **기능(도메인) 단위**로 먼저 그룹화합니다.
 - **내부 구조:** 각 기능 패키지 안에는 다음과 같은 전통적인 웹 애플리케이션의 계층이 존재합니다.
