@@ -1,0 +1,16 @@
+package com.studyblock.domain.community.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class CommentRequest {
+    private String content;
+    private Long parentCommentId;  // 대댓글 부모 id
+
+}

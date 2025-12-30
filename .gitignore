@@ -1,0 +1,244 @@
+# ===========================================
+# StudyBlock Backend .gitignore
+# Spring Boot 3.5.6 + Java 17 + Gradle 8.5
+# ===========================================
+
+# ===========================================
+# 🚨 보안 관련 파일 (절대 커밋 금지)
+# ===========================================
+
+# 환경변수 파일
+.env
+.env.*
+.env.local
+.env.development
+.env.production
+.env.staging
+
+# 민감한 설정 파일
+application-local.yml
+application-local.properties
+
+# API 키 및 시크릿
+secrets/
+credentials/
+*.secret
+*.confidential
+config/secrets/
+
+# 인증서 및 키 파일
+*.p12
+*.jks
+*.pem
+*.key
+*.crt
+*.p8
+
+# ===========================================
+# 🏗️ Gradle 관련
+# ===========================================
+
+# Gradle 빌드 캐시
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Gradle 데몬
+.gradle-daemon/
+
+# ===========================================
+# ☕ Java 관련
+# ===========================================
+
+# 컴파일된 클래스 파일
+*.class
+
+# JAR 파일 (빌드 결과물)
+*.jar
+!gradle/wrapper/gradle-wrapper.jar  # ⭐ Gradle Wrapper는 예외
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# ===========================================
+# 🗄️ 데이터베이스 관련
+# ===========================================
+
+# MySQL 데이터 디렉토리
+mysql-data/
+mysql/
+
+# H2 데이터베이스 파일 (테스트용)
+*.db
+*.mv.db
+*.trace.db
+
+# SQLite 데이터베이스
+*.sqlite
+*.sqlite3
+
+# Flyway - 로컬 개발용 데이터 (민감 정보 포함)
+# 팀원들은 각자 local/ 폴더에 테스트 데이터 작성
+**/db/migration/local/
+**/db/migration/**/*-seed-*.sql
+**/db/migration/**/*-secret-*.sql
+**/db/migration/**/*-local-*.sql
+**/db/migration_local/
+**/db/migration_prod/
+
+
+# 배포 스크립트 (민감 정보 포함)
+deploy/init-*.sql
+deploy/prod-*.sql
+
+# ===========================================
+# 📊 로그 및 임시 파일
+# ===========================================
+
+# 로그 파일
+*.log
+logs/
+log/
+
+# 임시 파일
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ===========================================
+# 💻 IDE 및 에디터 (팀 혼용 환경 고려)
+# ===========================================
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# VS Code (팀원들 사용)
+.vscode/
+*.code-workspace
+# VS Code Java Extension 설정 (팀 공통 설정은 포함 가능)
+# !.vscode/settings.json
+# !.vscode/launch.json
+# !.vscode/tasks.json
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+
+# ===========================================
+# 🐳 Docker 관련
+# ===========================================
+
+# Docker 파일 (로컬 개발용)
+Dockerfile.local
+docker-compose.local.yml
+docker-compose.override.yml
+
+# Docker 볼륨 데이터
+docker-data/
+
+# ===========================================
+# 🧪 테스트 관련
+# ===========================================
+
+# 테스트 결과
+test-results/
+test-output/
+coverage/
+
+# JaCoCo 커버리지 리포트
+jacoco.exec
+jacoco/
+
+# ===========================================
+# 📁 업로드 및 파일 관련
+# ===========================================
+
+# 업로드 파일 (사용자가 업로드한 파일)
+uploads/
+files/
+images/
+videos/
+documents/
+
+# 정적 파일 캐시
+static/cache/
+public/cache/
+
+# ===========================================
+# 🔄 CI/CD 관련
+# ===========================================
+
+# GitHub Actions (선택적으로 포함 가능)
+# .github/workflows/
+
+# Jenkins
+.jenkins/
+
+# ===========================================
+# 📱 OS 관련
+# ===========================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Desktop.ini
+
+
+# ===========================================
+# 📝 문서 및 백업
+# ===========================================
+
+# 개인 노트 및 백업
+notes/
+TODO.md
+NOTES.md
+*.backup
+*.bak
+*.old
+
+# ===========================================
+# 🔧 기타
+# ===========================================
+
+# Spring Boot 특화
+HELP.md

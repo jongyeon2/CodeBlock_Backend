@@ -1,0 +1,212 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'org.flywaydb.flyway' version '10.18.2'
+}
+
+group = 'com.studyblock'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // ===========================================
+    // 🚀 Spring Boot Core Starters
+    // ===========================================
+    
+    // Spring Boot Web (REST API 개발)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // Spring Boot WebSocket (실시간 통신)
+    //implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    
+    // Spring Boot Validation (데이터 검증)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    
+    // Spring Boot Actuator (모니터링 엔드포인트)
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    
+    // Spring Boot DevTools (개발 편의 도구)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    
+    // Spring Boot Configuration Processor (설정 메타데이터)
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    
+    // ===========================================
+    // 🔐 Spring Security & OAuth2
+    // ===========================================
+    
+    // Spring Boot Security (인증/인가)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    
+    // OAuth2 Resource Server (SNS 로그인 대비)
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    
+    // ===========================================
+    // 🗄️ Database & JPA (임시 비활성화 - 스키마 생성 후 활성화)
+    // ===========================================
+    
+    // Spring Boot Data JPA (ORM) - 임시 비활성화
+     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+    // MySQL Connector (MySQL 8.0+ 호환) - 임시 비활성화
+     runtimeOnly 'com.mysql:mysql-connector-j'
+    
+    // Flyway (데이터베이스 마이그레이션) - 임시 비활성화
+     implementation 'org.flywaydb:flyway-core'
+     implementation 'org.flywaydb:flyway-mysql'
+    
+    // ===========================================
+    // 🔍 Monitoring & Documentation
+    // ===========================================
+    
+    // Spring Boot Admin Client (3.3.4 - JDK 17 안정 버전)
+    implementation 'de.codecentric:spring-boot-admin-starter-client:3.3.4'
+    
+    // SpringDoc OpenAPI (2.5.0)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    
+    // ===========================================
+    // 🔑 JWT Authentication
+    // ===========================================
+    
+    // JJWT API (0.12.6 - 클로드 추천 최신 안정 버전)
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    
+    // JJWT Implementation (0.12.6 - 최신 안정 버전)
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    
+    // JJWT Jackson (0.12.6 - JSON 처리)
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    
+    // ===========================================
+    // 🛠️ Development Tools
+    // ===========================================
+    
+    // Lombok (코드 간소화 - 최신 안정 버전)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // MapStruct (매핑 라이브러리 - 향후 사용 가능)
+    // implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    // annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    
+    // ===========================================
+    // 🧪 Testing
+    // ===========================================
+    
+    // Spring Boot Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
+    // Spring Security Test
+    testImplementation 'org.springframework.security:spring-security-test'
+    
+    // JUnit Platform Launcher
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    // TestContainers (통합 테스트용 - 향후 사용 가능)
+    // testImplementation 'org.testcontainers:junit-jupiter'
+    // testImplementation 'org.testcontainers:mysql'
+    
+    // ===========================================
+    // 🔮 향후 추가 가능한 라이브러리들 (주석 처리)
+    // ===========================================
+
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    // Redis (캐싱)
+     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    
+    
+    // Mail (이메일 발송)
+     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    
+    // Thymeleaf (서버사이드 템플릿)
+    // implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    
+    // Quartz (스케줄링)
+    // implementation 'org.springframework.boot:spring-boot-starter-quartz'
+    
+    // Spring Cloud (마이크로서비스)
+    // implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    
+    // Micrometer (메트릭 수집)
+    // implementation 'io.micrometer:micrometer-registry-prometheus'
+    
+    // Apache Commons (유틸리티)
+    // implementation 'org.apache.commons:commons-lang3'
+    // implementation 'commons-io:commons-io'
+
+    // AWS 설정
+    implementation platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.2.0")
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3'
+
+    // SNS 로그인
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // .env 파일 로더
+    implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+
+    // ===========================================
+    // 💳 토스페이먼츠 REST API
+    // ===========================================
+
+    // WebClient (토스페이먼츠 REST API 호출용)
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // Jackson Databind (JSON 처리 - 이미 Spring Boot에 포함되어 있지만 명시)
+    // implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+    // Excel 업로드 위한 라이브러리들
+    implementation 'org.apache.poi:poi:5.2.4' // 97-03버전(.xls) 형식을 처리하기 위한 라이브러리
+    implementation 'org.apache.poi:poi-ooxml:5.2.4' // 07~버전(.xlsx) 형식을 처리하기 위한 확장 라이브러리
+    implementation 'org.apache.poi:poi-scratchpad:5.2.4' // 추가 POI 기능
+    implementation 'com.opencsv:opencsv:5.9' // 쉼표(,)로 구분된 값들을 저장하는 형식
+
+    // WebP 지원 라이브러리 (안정적인 라이브러리 찾을 때까지 임시 비활성화)
+    // implementation 'com.github.gotson:webp-imageio:0.1.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// QueryDSL Q클래스 생성 경로 설정
+def querydslDir = "$buildDir/generated/sources/annotationProcessor/java/main"
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslDir]
+        }
+    }
+}
+
+// QueryDSL annotation processor 실행
+tasks.withType(JavaCompile) {
+    options.annotationProcessorPath = configurations.annotationProcessor
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+// clean 태스크 시 생성된 Q클래스 디렉토리 삭제
+clean {
+    delete file(querydslDir)
+}
+

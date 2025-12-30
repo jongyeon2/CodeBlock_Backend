@@ -1,0 +1,149 @@
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}  # 환경변수 없으면 기본값 local
+  web:
+    resources:
+      static-locations: classpath:/static/
+      add-mappings: true
+    # mvc.static-path-pattern 제거: 기본값 사용 (컨트롤러 매핑 우선순위)
+    # WebConfig에서 /favicon.ico는 명시적으로 처리됨
+  application:
+    name: studyblock-backend
+  config:
+    import: optional:file:.env[.properties]  # .env 파일 로딩
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 3000ms
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 10
+          min-idle: 2
+  # SNS 로그인 설정은 각 환경별 yml에서 관리
+  # - application-local.yml: 로컬 개발 환경용
+  # - application-prod.yml: 운영 환경용
+#  작동 방식
+#  1. Spring Boot가 spring.mail.*을 읽음
+#  2. 내부적으로 JavaMailSender Bean이 자동 생성됨.
+#  3. MailService에서 mailSender.send() 호출시
+#   - Gmail SMTP 서버(smtp.gmail.com)으로 연결
+#   - TLS 암호화 후 인증
+#   - 메일 본문과 수신자 정보를 전송
+  mail:
+    host: ${EMAIL_HOST} # Gmail SMTP 서버
+    port: ${EMAIL_PORT} # TLS용 포트 번호 (SSL 465, TLS는 587)
+    username: ${EMAIL_USERNAME} # Gmail 계정
+    password: ${EMAIL_PASSWORD} # Gmail 앱 비밀번호
+    properties:
+      mail:
+        smtp:
+          auth: true # SMTP 서버 인증 사용 (username/password 필수)
+          starttls:
+            enable: true # TLS(전송 계층 보안) 암호화 사용
+            required: true # 서버와 클라이언트 간 TLS 연결이 반드시 필요
+          connectiontimeout: 5000 # 연결 시도 최대 대기 시간 (ms)
+          timeout: 5000 # 서버 응답 대기 시간 (ms)
+          writetimeout: 5000 # 데이터 전송 시 최대 대기 시간 (ms)
+
+  # AWS 설정
+  cloud:
+    aws:
+      # IAM Role 사용 시 credentials 설정 제거 (EC2 Instance Profile 자동 사용)
+      # credentials:
+      #   access-key: ${AWS_ACCESS_KEY_ID}
+      #   secret-key: ${AWS_SECRET_ACCESS_KEY}
+      region:
+        static: ${AWS_REGION:ap-northeast-2} # 기본값 ap-northeast-2
+      s3:
+        bucket: ${AWS_S3_BUCKET:study-block} # S3 버킷 이름
+  servlet:
+    multipart:
+      max-file-size: 500MB # 비디오 업로드를 위한 크기 제한
+      max-request-size: 500MB
+
+  # Spring Boot Admin 연동
+  boot:
+    admin:
+      client:
+        url: http://localhost:9090
+        instance:
+          name: StudyBlock API Server
+
+  # JPA 공통 설정
+  jpa:
+    open-in-view: false # 기본값
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        default_batch_fetch_size: 100
+
+  # Flyway 공통 설정
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    encoding: UTF-8
+    baseline-version: 0
+
+# 서버 공통 설정
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  shutdown: graceful
+
+# Actuator 설정 (모니터링)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+# 애플리케이션 정보
+info:
+  app:
+    name: StudyBlock API Server
+    description: 학습 관리 플랫폼 백엔드 API
+    version: 1.0.0
+
+# 비디오 인코딩 설정 (공통)
+video:
+  encoding:
+    enabled: true  # 인코딩 활성화 여부 (환경별로 오버라이드 가능)
+    use-generic: true  # 제네릭 인코딩 서비스 사용 여부 (진행률 업데이트 지원)
+    workspace: ./tmp/videos  # FFmpeg 작업 디렉토리
+
+# 로깅 공통 설정
+logging:
+  level:
+    root: INFO
+    com.studyblock: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+
+#토스페이먼츠 설정
+toss:
+  payments:
+    enabled: ${TOSS_PAYMENTS_ENABLED:false}
+    api-url: ${TOSS_API_URL:https://api.tosspayments.com}
+    secret-key: ${TOSS_SECRET_KEY:}
+    client-key: ${TOSS_CLIENT_KEY:}
+    #test-mode: ${TOSS_PAYMENTS_TEST_MODE:false}  # 테스트 모드 (로컬 개발 시 true)
+    #webhook-secret: ${TOSS_WEBHOOK_SECRET:} //나중에 추가?
+    # 멱등키 설정 추가
+    idempotency:
+      enabled: true
+      key-prefix: "studyblock"
+      ttl-days: 15  # 15일 유효
+    # API 헤더 설정
+    headers:
+      accept-language: "ko"  # 또는 "en"
+      test-code: ""  # 테스트용 에러 재현

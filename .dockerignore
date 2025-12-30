@@ -1,0 +1,15 @@
+.gradle
+build
+!build/libs/*.jar
+.git
+.gitignore
+.env
+.env.*
+*.log
+.vscode
+.idea
+README.md
+.DS_Store
+bin
+src/test
+.github

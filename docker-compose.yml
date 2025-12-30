@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  backend:
+    image: qorwhddus12/elearning-backend
+    container_name: backend
+    ports:
+      - "443:8080"
+    env_file:
+      - /opt/elearning/.env
+    volumes:
+      - /var/tmp/videos:/var/tmp/videos
+    networks:
+      - app-network
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${TIMEZONE:-Asia/Seoul}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    networks:
+      - app-network
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # FFmpeg 인코딩 서비스
+  # 실제로는 Spring Boot 앱에서 호출하므로 항상 실행할 필요는 없음
+  # 필요시 docker exec로 사용하거나, 공유 볼륨을 통해 파일 처리
+  ffmpeg:
+    image: ghcr.io/linuxserver/ffmpeg:latest
+    platform: linux/arm64
+    container_name: ffmpeg
+    volumes:
+      - ./tmp/videos:/workspace  # 로컬 tmp 폴더와 컨테이너 공유
+    entrypoint: ["tail", "-f", "/dev/null"]  # 컨테이너를 계속 실행 상태로 유지
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  mysql-data:

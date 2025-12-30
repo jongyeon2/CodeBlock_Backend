@@ -1,0 +1,36 @@
+-- V1: 사용자 관련 테이블 생성
+
+CREATE TABLE user (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    member_id VARCHAR(255) NOT NULL,
+    password TEXT NOT NULL,
+    phone VARCHAR(255) NOT NULL,
+    birth DATE NOT NULL,
+    gender TINYINT(1) NOT NULL,
+    status TINYINT(1) NOT NULL DEFAULT 1,
+    jointype VARCHAR(255) NOT NULL,
+    is_creator TINYINT(1) NOT NULL DEFAULT 0,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_member_id (member_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE user_profile (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    nickname VARCHAR(255) NULL,
+    intro VARCHAR(255) NULL,
+    img VARCHAR(255) NULL,
+    img_size_bytes VARCHAR(50) NULL,
+    interests VARCHAR(255) NULL,
+    career VARCHAR(255) NULL,
+    skills VARCHAR(255) NULL,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_user_id (user_id),
+    CONSTRAINT FK_user_TO_user_profile_1 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
