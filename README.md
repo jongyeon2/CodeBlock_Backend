@@ -28,3 +28,8 @@ CodeBlock은 사용자가 강의를 탐색하고 결제해 수강할 수 있고,
 - Refresh Token 저장과 만료를 Redis TTL로 함께 관리해 인증 흐름 단순화
 - 결제 승인 전 검증과 중복 결제 방지를 위한 멱등성 처리 적용
 - 전역 예외 처리와 환경별 설정 분리로 운영 안정성 확보
+
+
+##링크
+배포 주소 : https://codeblock.cloud
+프론트엔드 레포지토리 : https://github.com/jongyeon2/CodeBlock_Front
